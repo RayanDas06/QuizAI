@@ -2,6 +2,9 @@
   "name": "videogen",
   "module": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "sst dev --stage rohangodha"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "sst": "^3.2.61"
