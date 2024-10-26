@@ -6,6 +6,11 @@ export default $config({
       name: "videogen",
       removal: input?.stage === "production" ? "retain" : "remove",
       home: "aws",
+      providers: {
+        aws: {
+          region: "us-east-1",
+        },
+      },
     };
   },
   async run() {
