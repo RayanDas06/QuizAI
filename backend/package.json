@@ -14,6 +14,7 @@
     "@aws-sdk/client-sqs": "^3.679.0",
     "@cartesia/cartesia-js": "^1.2.1",
     "hono": "^4.6.7",
+    "mongoose": "^8.7.3",
     "zod": "^3.23.8"
   }
 }

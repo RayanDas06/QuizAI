@@ -1,7 +1,8 @@
 import { Resource } from "sst";
-import { videoSchema } from "./lib/video";
+import { queueMessage } from "./lib/video";
 import Cartesia from "@cartesia/cartesia-js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { connectToDb, Topic } from "./lib/db";
 
 const s3 = new S3Client({});
 
@@ -10,7 +11,11 @@ const cartesia = new Cartesia({
 });
 
 export const handler = async (event: { Records: Array<{ body: string }> }) => {
-  const video = videoSchema.parse(JSON.parse(event.Records[0]!.body));
+  const { video, topic } = queueMessage.parse(
+    JSON.parse(event.Records[0]!.body),
+  );
+
+  await connectToDb();
 
   // intentionally sequential b/c cartesia has a limit
   const questionAudio = await audioFor(video.question);
@@ -20,7 +25,11 @@ export const handler = async (event: { Records: Array<{ body: string }> }) => {
   // const dAudio = await audioFor(video.answers[3].explanation);
 
   const questionAudioId = await upload(questionAudio);
-  console.log(questionAudioId);
+
+  const t = (await Topic.findById(topic))!;
+  t.notesLinks.push(`${Resource.BucketRouter.url}/files/${questionAudioId}`);
+
+  await t.save();
 };
 
 const PETER_GRIFFIN = "d18f25ce-1c39-4bda-95d9-b0d937ff7a11";

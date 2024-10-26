@@ -10,7 +10,15 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "BucketRouter": {
+      "type": "sst.aws.Router"
+      "url": string
+    }
     "CartesiaKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "MongoURI": {
       "type": "sst.sst.Secret"
       "value": string
     }
