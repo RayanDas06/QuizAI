@@ -3,7 +3,7 @@
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "sst dev --stage rohangodha"
+    "dev": "sst dev"
   },
   "devDependencies": {
     "@types/bun": "latest",
