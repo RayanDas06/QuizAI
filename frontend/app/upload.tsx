@@ -36,20 +36,22 @@ export default function Upload() {
     Alert.alert(JSON.stringify(blob));
   }
   async function sendImages() {
-    const url = "http://localhost:5000/image-receiver";
-    
+    const url = "https://pr3pxwe35maanib7ukld3gxlru0omfeg.lambda-url.us-east-1.on.aws/topic";
     try {
       // Construct FormData to send the image as a multipart form
       const formData = new FormData();
+      //Alert.alert(JSON.stringify(photoList));
       for(let i = 0;i<photoList.length;i++){
-        formData.append("file", photoList[i], "image"+i+".jpeg");
+        formData.append("file[]", photoList[i]);
       }
+      formData.append("test", "hi");
+      const blob1 = new Blob(["Hello, this is some text content"], { type: "text/plain" });
+      formData.append("test1", blob1);
+      Alert.alert(JSON.stringify(formData.get("test")));
+      Alert.alert(JSON.stringify(formData.get("file[]")));
       // Send the POST request with the image data
       const response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         body: formData,
       });
   
@@ -87,6 +89,11 @@ export default function Upload() {
               borderRadius:50,
             }}
         >
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={sendImages}
+        >
+          <Text>Upload</Text>
         </TouchableOpacity>
       </View>
     </View>
