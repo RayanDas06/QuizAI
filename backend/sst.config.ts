@@ -25,6 +25,14 @@ export default $config({
       access: "public",
     });
 
+    const bucketRouter = new sst.aws.Router("BucketRouter", {
+      routes: {
+        "/files/*": {
+          bucket,
+        },
+      },
+    });
+
     const api = new sst.aws.Function("hono", {
       url: true,
       handler: "src/backend.handler",
@@ -34,7 +42,7 @@ export default $config({
     queue.subscribe(
       {
         handler: "src/subscriber.handler",
-        link: [bucket, anthropicKey, cartesiaKey, mongodbURI],
+        link: [bucket, anthropicKey, cartesiaKey, mongodbURI, bucketRouter],
         memory: "5 GB",
       },
       {
@@ -53,8 +61,6 @@ export default $config({
       },
     );
 
-    return {
-      apiURL: api.url,
-    };
+    return {};
   },
 });
