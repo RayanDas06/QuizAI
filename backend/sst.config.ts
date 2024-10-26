@@ -9,6 +9,8 @@ export default $config({
     };
   },
   async run() {
+    const anthropicKey = new sst.Secret("AnthropicKey");
+
     const queue = new sst.aws.Queue("queue", {});
     const bucket = new sst.aws.Bucket("bucket", {
       access: "public",
@@ -17,12 +19,13 @@ export default $config({
     const api = new sst.aws.Function("hono", {
       url: true,
       handler: "src/backend.handler",
+      link: [anthropicKey, queue],
     });
 
     queue.subscribe(
       {
         handler: "src/subscriber.handler",
-        link: [bucket],
+        link: [bucket, anthropicKey],
         memory: "5 GB",
       },
       {
