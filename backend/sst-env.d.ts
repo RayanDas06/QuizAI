@@ -14,6 +14,10 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "MongoURI": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "bucket": {
       "name": string
       "type": "sst.aws.Bucket"

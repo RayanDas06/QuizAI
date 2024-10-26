@@ -16,6 +16,7 @@ export default $config({
   async run() {
     const anthropicKey = new sst.Secret("AnthropicKey");
     const cartesiaKey = new sst.Secret("CartesiaKey");
+    const mongodbURI = new sst.Secret("MongoURI");
 
     const queue = new sst.aws.Queue("queue", {
       visibilityTimeout: "2 minutes",
@@ -27,13 +28,13 @@ export default $config({
     const api = new sst.aws.Function("hono", {
       url: true,
       handler: "src/backend.handler",
-      link: [anthropicKey, queue],
+      link: [anthropicKey, queue, mongodbURI],
     });
 
     queue.subscribe(
       {
         handler: "src/subscriber.handler",
-        link: [bucket, anthropicKey, cartesiaKey],
+        link: [bucket, anthropicKey, cartesiaKey, mongodbURI],
         memory: "5 GB",
       },
       {
