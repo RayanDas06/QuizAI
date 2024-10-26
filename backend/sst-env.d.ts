@@ -10,6 +10,10 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "CartesiaKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "bucket": {
       "name": string
       "type": "sst.aws.Bucket"

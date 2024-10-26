@@ -17,20 +17,18 @@ export const videoSchema = z.object({
   // the actual text of the question
   question: z.string(),
   // which one of the 4 possible answers is correct
-  correct: z.tuple([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  correct: z.enum(["a", "b", "c", "d"]),
   answers: z.tuple([answerSchema, answerSchema, answerSchema, answerSchema]),
 });
 
-export type Video = z.infer<typeof videoSchema>;
+export type Video = z.output<typeof videoSchema>;
 
 export async function sendVideos(videos: Video[]) {
   return await Promise.all(
     videos.map(async (video) => {
-      const v = videoSchema.parse(video);
-
       const cmd = new SendMessageCommand({
         QueueUrl: Resource.queue.url,
-        MessageBody: JSON.stringify(v),
+        MessageBody: JSON.stringify(video),
       });
 
       const ret = await sqs.send(cmd);

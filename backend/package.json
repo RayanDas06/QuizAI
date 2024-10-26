@@ -10,7 +10,9 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.679.0",
     "@aws-sdk/client-sqs": "^3.679.0",
+    "@cartesia/cartesia-js": "^1.2.1",
     "hono": "^4.6.7",
     "zod": "^3.23.8"
   }

@@ -15,8 +15,11 @@ export default $config({
   },
   async run() {
     const anthropicKey = new sst.Secret("AnthropicKey");
+    const cartesiaKey = new sst.Secret("CartesiaKey");
 
-    const queue = new sst.aws.Queue("queue", {});
+    const queue = new sst.aws.Queue("queue", {
+      visibilityTimeout: "2 minutes",
+    });
     const bucket = new sst.aws.Bucket("bucket", {
       access: "public",
     });
@@ -30,7 +33,7 @@ export default $config({
     queue.subscribe(
       {
         handler: "src/subscriber.handler",
-        link: [bucket, anthropicKey],
+        link: [bucket, anthropicKey, cartesiaKey],
         memory: "5 GB",
       },
       {
