@@ -1,7 +1,7 @@
 import { Audio } from "expo-av";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Text, ScrollView } from "react-native";
 
 export default function Topic() {
   const { topic } = useLocalSearchParams();
@@ -39,22 +39,23 @@ export default function Topic() {
   if (!question) return <Text> loading.... </Text>;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topButtons}>
-        <TouchableOpacity
-          style={styles.counterButton}
-          onPress={() => setSelectedQuestionIndex((i) => i - 1)}
-        >
-          <Text style={styles.counterButtonText}>-</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.counterButton}
-          onPress={() => setSelectedQuestionIndex((i) => i + 1)}
-        >
-          <Text style={styles.counterButtonText}>+</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.optionsContainer}>
+    <ScrollView style={styles.container}>
+      {
+      //   <View style={styles.topButtons}>
+      //   <TouchableOpacity
+      //     style={styles.counterButton}
+      //     onPress={() => setSelectedQuestionIndex((i) => i - 1)}
+      //   >
+      //     <Text style={styles.counterButtonText}>-</Text>
+      //   </TouchableOpacity>
+      //   <TouchableOpacity
+      //     style={styles.counterButton}
+      //     onPress={() => setSelectedQuestionIndex((i) => i + 1)}
+      //   >
+      //     <Text style={styles.counterButtonText}>+</Text>
+      //   </TouchableOpacity>
+      //  </View>
+      }
         {question.answers.map((ans, i) => (
           <TouchableOpacity
             style={styles.optionButton}
@@ -65,8 +66,7 @@ export default function Topic() {
             </Text>
           </TouchableOpacity>
         ))}
-      </View>
-    </View>
+    </ScrollView>
   );
 }
 
