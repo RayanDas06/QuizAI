@@ -27,6 +27,7 @@ app.post("/topic/create", async (c) => {
   const topic = new Topic({
     notesLinks: [],
     questions: [],
+    character: "peter",
   });
 
   await topic.save();

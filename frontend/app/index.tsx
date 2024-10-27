@@ -1,7 +1,13 @@
+import { getTopic } from "@/lib/topic";
 import { Link } from "expo-router";
+import { useEffect, useState } from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
 
 export default function Index() {
+  const [recentTopic, setRecentTopic] = useState<string | null>(null);
+  useEffect(() => {
+    getTopic().then(setRecentTopic);
+  }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.appName}>TeachTok</Text>
@@ -9,7 +15,11 @@ export default function Index() {
       <Link href="/upload" style={styles.button}>
         Go to Camera
       </Link>
-      <Link href="/671dc536df6dae0513f0fd14" style={styles.button}/>
+      {!!recentTopic ? (
+        <Link href={`/${recentTopic}`} style={styles.button}>
+          Recent Topic
+        </Link>
+      ) : null}
     </View>
   );
 }

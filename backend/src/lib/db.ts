@@ -39,7 +39,14 @@ const questions = new Schema({
 const topic = new Schema({
   notesLinks: [{ type: String, required: true }],
   questions: [{ type: Types.ObjectId, ref: "Question", required: true }],
+  character: {
+    type: String,
+    required: true,
+    enum: ["peter", "patrick", "sheldon"],
+  },
 });
+
+export type Character = "peter" | "patrick" | "sheldon";
 
 export const Topic = model("Topic", topic);
 export const Question = model("Question", questions);

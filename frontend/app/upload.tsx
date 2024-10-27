@@ -1,5 +1,5 @@
 import { CameraView, CameraProps, useCameraPermissions } from "expo-camera";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Alert,
   Button,
@@ -8,11 +8,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Icon } from "react-native-elements";
 import axios from "axios";
 import "react-native-get-random-values";
-import BSON from "bson";
 import { router } from "expo-router";
+import { saveTopic } from "@/lib/topic";
 
 export default function Upload() {
   // @ts-ignore: just being lazy with types here
@@ -41,7 +40,6 @@ export default function Upload() {
 
   async function takePhoto() {
     const photo = await cameraRef.current?.takePictureAsync({ base64: true });
-    alert(`photo captured with dimensions: ${photo!.width} x ${photo!.height}`);
     const uri: any = photo?.uri;
     //const resp = await fetch(uri);
     const temp = photo?.base64;
@@ -79,17 +77,13 @@ export default function Upload() {
       await axios.post(url + "/" + postId + "/commit");
       setBlobList([]);
       setPhotoList([]);
+      await saveTopic(postId);
       router.push(postId);
     } catch (error) {
       console.error("Error uploading image:", error);
       Alert.alert("Error", "An error occurred while uploading the image.");
     }
   }
-
-  // async function sendImagesWithMultipart(){
-  //   const formData = new FormData();
-  //   XMLHttpRequest.send("HI", "Hey");
-  // }
 
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));
@@ -148,4 +142,3 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
-
