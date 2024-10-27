@@ -15,6 +15,7 @@ export default function Index() {
       <Link href="/upload" style={styles.button}>
         Go to Camera
       </Link>
+
       {!!recentTopic ? (
         <Link href={`/${recentTopic}`} style={styles.button}>
           Recent Topic
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 18,
-    marginBottom: 350,
+    marginBottom: 200,
     color: "#a39193",
   },
   button: {
@@ -49,5 +50,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     textAlign: "center",
     width: 130,
+    marginBottom: 10,
   },
 });

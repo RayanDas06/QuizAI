@@ -109,7 +109,7 @@ app.get("/topic/:id", async (c) => {
 });
 
 app.post(
-  "/topic/:topic/:question/chat",
+  "/chat/:question",
   zValidator(
     "json",
     z.object({
@@ -118,11 +118,8 @@ app.post(
     }),
   ),
   async (c) => {
-    const [topic, dbQuestion] = await Promise.all([
-      await Topic.findById(c.req.param("topic")),
-      await Question.findById(c.req.param("question")),
-    ]);
-    console.log({ topic, dbQuestion });
+    const dbQuestion = await Question.findById(c.req.param("question"));
+    const topic = await Topic.findOne({ questions: c.req.param("question") });
     if (!dbQuestion || !topic) {
       throw new HTTPException(404, { message: "question/topic not found" });
     }
