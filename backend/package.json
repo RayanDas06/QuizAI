@@ -10,9 +10,10 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.679.0",
     "@ai-sdk/anthropic": "^0.0.53",
+    "@aws-sdk/client-s3": "^3.679.0",
     "@aws-sdk/client-sqs": "^3.679.0",
+    "@aws-sdk/s3-request-presigner": "^3.679.0",
     "@cartesia/cartesia-js": "^1.2.1",
     "ai": "^3.4.20",
     "hono": "^4.6.7",

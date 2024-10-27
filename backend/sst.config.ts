@@ -22,27 +22,22 @@ export default $config({
       visibilityTimeout: "2 minutes",
     });
     const bucket = new sst.aws.Bucket("bucket", {
-      access: "public",
+      public: true,
     });
-
-    const bucketRouter = new sst.aws.Router("BucketRouter", {
-      routes: {
-        "/files/*": {
-          bucket,
-        },
-      },
+    const bucketURL = new sst.Linkable("bucketURL", {
+      properties: { url: bucket.domain },
     });
 
     const api = new sst.aws.Function("hono", {
       url: true,
       handler: "src/backend.handler",
-      link: [anthropicKey, queue, mongodbURI],
+      link: [anthropicKey, queue, mongodbURI, bucketURL, bucket],
     });
 
     queue.subscribe(
       {
         handler: "src/subscriber.handler",
-        link: [bucket, anthropicKey, cartesiaKey, mongodbURI, bucketRouter],
+        link: [bucket, anthropicKey, cartesiaKey, mongodbURI, bucketURL],
         memory: "5 GB",
       },
       {
@@ -60,7 +55,5 @@ export default $config({
         },
       },
     );
-
-    return {};
   },
 });

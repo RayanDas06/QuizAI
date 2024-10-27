@@ -17,9 +17,27 @@ process.on("SIGINT", async () => {
   process.exit();
 });
 
+const questions = new Schema({
+  text: { type: String, required: true },
+  questionAudio: { type: String, required: true },
+  answer: { type: String, required: true, enum: ["a", "b", "c", "d"] },
+  answers: {
+    type: [
+      {
+        // text content of the answer
+        answer: { type: String, required: true },
+        // explanation for if the question is right or wrong
+        explanation: { type: String, required: true },
+      },
+    ],
+    required: true,
+  },
+});
+
 const topic = new Schema({
   notesLinks: [{ type: String, required: true }],
-  videoLinks: [{ type: String, required: true }],
+  questions: [{ type: Types.ObjectId, ref: "Question", required: true }],
 });
 
 export const Topic = model("Topic", topic);
+export const Question = model("Question", questions);

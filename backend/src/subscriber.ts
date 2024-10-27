@@ -2,7 +2,7 @@ import { Resource } from "sst";
 import { queueMessage } from "./lib/video";
 import Cartesia from "@cartesia/cartesia-js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { connectToDb, Topic } from "./lib/db";
+import { connectToDb, Question, Topic } from "./lib/db";
 
 const s3 = new S3Client({});
 
@@ -17,8 +17,9 @@ export const handler = async (event: { Records: Array<{ body: string }> }) => {
 
   await connectToDb();
 
-  // intentionally sequential b/c cartesia has a limit
+  // intentionally sequential b/c cartesia has limit
   const questionAudio = await audioFor(video.question);
+  // maybe later? they're very expensive
   // const aAudio = await audioFor(video.answers[0].explanation);
   // const bAudio = await audioFor(video.answers[1].explanation);
   // const cAudio = await audioFor(video.answers[2].explanation);
@@ -27,8 +28,15 @@ export const handler = async (event: { Records: Array<{ body: string }> }) => {
   const questionAudioId = await upload(questionAudio);
 
   const t = (await Topic.findById(topic))!;
-  t.notesLinks.push(`${Resource.BucketRouter.url}/files/${questionAudioId}`);
+  const q = new Question({
+    questionAudio: `https://${Resource.bucketURL.url}/${questionAudioId}.wav`,
+    text: video.question,
+    answer: video.correct,
+    answers: video.answers,
+  });
 
+  await q.save();
+  t.questions.push(q._id);
   await t.save();
 };
 
@@ -48,7 +56,7 @@ async function audioFor(text: string) {
       transcript: text,
       output_format: {
         container: "wav",
-        encoding: "pcm_f32le",
+        encoding: "pcm_s16le",
         // 44.1 kHz
         sample_rate: 44100,
       },
