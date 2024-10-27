@@ -68,6 +68,8 @@ export default function Upload() {
         }
       }
       await axios.post(url+"/"+postId+"/commit");
+      setBlobList([]);
+      setPhotoList([]);
     } catch (error) {
       console.error("Error uploading image:", error);
       Alert.alert("Error", "An error occurred while uploading the image.");
