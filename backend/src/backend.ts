@@ -104,7 +104,7 @@ app.get("/topic/:id", async (c) => {
   const topic = await Topic.findById(id).populate("questions");
   if (!topic) throw new HTTPException(404, { message: "topic not found" });
 
-  return c.json({ questions: topic.questions });
+  return c.json({ questions: topic.questions.toObject() });
 });
 
 app.post(
