@@ -9,9 +9,7 @@ export default function Index() {
       <Link href="/upload" style={styles.button}>
         Go to Camera
       </Link>
-      <Link href="/671dc536df6dae0513f0fd14" style={styles.button}>
-        yea
-      </Link>
+      <Link href="/671dc536df6dae0513f0fd14" style={styles.button}/>
     </View>
   );
 }

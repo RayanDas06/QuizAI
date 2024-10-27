@@ -23,7 +23,7 @@ export default function Scroller() {
             setVideos(vids);
             setAudios(auds);
         }
-
+        
         fetchDataToRender();
     }, []);
 
