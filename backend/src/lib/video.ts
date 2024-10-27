@@ -26,16 +26,12 @@ export const queueMessage = z.object({
 
 export type Video = z.output<typeof videoSchema>;
 
-export async function sendVideos(videos: Video[], topic: string) {
-  return await Promise.all(
-    videos.map(async (video) => {
-      const cmd = new SendMessageCommand({
-        QueueUrl: Resource.queue.url,
-        MessageBody: JSON.stringify({ topic, video }),
-      });
+export async function sendVideo(video: Video, topic: string) {
+  const cmd = new SendMessageCommand({
+    QueueUrl: Resource.queue.url,
+    MessageBody: JSON.stringify({ topic, video }),
+  });
 
-      const ret = await sqs.send(cmd);
-      return ret.MessageId;
-    }),
-  );
+  const ret = await sqs.send(cmd);
+  return ret.MessageId;
 }
