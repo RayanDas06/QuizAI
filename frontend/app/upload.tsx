@@ -1,6 +1,13 @@
 import { CameraView, CameraProps, useCameraPermissions } from "expo-camera";
 import { useState, useRef } from "react";
-import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import axios from "axios";
 import "react-native-get-random-values";
 import { router } from "expo-router";
@@ -23,8 +30,10 @@ export default function Upload() {
     // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
-        <Text style={{ textAlign: "center" }}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title='grant permission' />
+        <Text style={{ textAlign: "center" }}>
+          We need your permission to show the camera
+        </Text>
+        <Button onPress={requestPermission} title="grant permission" />
       </View>
     );
   }
@@ -40,15 +49,9 @@ export default function Upload() {
     setBlobList([...blobList, blob]);
   }
 
-  async function makeBlobFile(blob: Blob, fileName: string) {
-    return new File([blob], fileName, {
-      type: blob.type,
-      lastModified: new Date().getTime(),
-    });
-  }
-
   async function sendImages() {
-    const url = "https://pr3pxwe35maanib7ukld3gxlru0omfeg.lambda-url.us-east-1.on.aws/topic";
+    const url =
+      "https://7zhrtkwetqzpehsfyomzfiwspy0kkdfb.lambda-url.us-east-1.on.aws/topic";
     try {
       const resp: any = await axios.post(url + "/" + "create");
       const postId = resp.data.id;
@@ -81,7 +84,11 @@ export default function Upload() {
 
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing} ref={cameraRef}></CameraView>
+      <CameraView
+        style={styles.camera}
+        facing={facing}
+        ref={cameraRef}
+      ></CameraView>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={takePhoto}
@@ -108,7 +115,8 @@ export default function Upload() {
             alignItems: "center",
             padding: 8,
             marginLeft: 50,
-          }}>
+          }}
+        >
           <Text> upload </Text>
         </TouchableOpacity>
       </View>

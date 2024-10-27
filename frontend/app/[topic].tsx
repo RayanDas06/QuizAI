@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
 });
 async function fetchData(topicID: string): Promise<Array<Question>> {
   const res = await fetch(
-    `https://pr3pxwe35maanib7ukld3gxlru0omfeg.lambda-url.us-east-1.on.aws/topic/${topicID}`,
+    `https://7zhrtkwetqzpehsfyomzfiwspy0kkdfb.lambda-url.us-east-1.on.aws/topic/${topicID}`,
   );
   const { questions } = await res.json();
 
