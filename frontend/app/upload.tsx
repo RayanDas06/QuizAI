@@ -57,9 +57,7 @@ export default function Upload() {
       const postId = resp.data.id;
       // Construct FormData to send the image as a multipart form
       for(let i = 0;i<photoList.length;i++){
-        Alert.alert("EMF");
         const body = blobList[i];
-        Alert.alert("HI");
         const tempURL = url+'/'+postId+'/img';
         const response = await fetch(tempURL, {
           method: "POST",
