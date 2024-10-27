@@ -49,7 +49,7 @@ async function audioFor(text: string) {
         id: PETER_GRIFFIN,
         mode: "id",
         __experimental_controls: {
-          speed: "fast",
+          speed: "slow",
         },
       },
       model_id: "sonic-english",
