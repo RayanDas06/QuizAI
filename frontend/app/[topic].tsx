@@ -1,3 +1,4 @@
+import Chat from "../components/Chatbot";
 import { Audio } from "expo-av";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -20,6 +21,7 @@ export default function Topic() {
   const [selectedAnswer, setSelectedAnswer] = useState<number | undefined>(
     undefined,
   );
+  const [chatOpen, setChatOpen] = useState(false);
 
   const selectedQuestionIndex =
     selectedQuestion >= 0
@@ -111,13 +113,24 @@ export default function Topic() {
       ))}
 
       <View style={styles.bottomButtons}>
+        <TouchableOpacity style={styles.counterButton}>
+          <Chat
+            questionID={question?.id || ""}
+            visible={chatOpen}
+            setVisible={setChatOpen}
+            selectedQuestion={
+              (["a", "b", "c", "d"] as const)[selectedAnswer || 0]
+            }
+          ></Chat>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.bottomButtons}>
         <TouchableOpacity
           style={styles.counterButton}
           onPress={() => setSelectedQuestionIndex((i) => i - 1)}
         >
           <Text style={styles.counterButtonText}>Previous Question</Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           style={styles.counterButton}
           onPress={() => setSelectedQuestionIndex((i) => i + 1)}
