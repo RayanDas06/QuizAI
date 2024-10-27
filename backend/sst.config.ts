@@ -32,6 +32,7 @@ export default $config({
       url: true,
       handler: "src/backend.handler",
       link: [anthropicKey, queue, mongodbURI, bucketURL, bucket],
+      timeout: "2 minute",
     });
 
     queue.subscribe(

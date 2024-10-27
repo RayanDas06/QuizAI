@@ -59,7 +59,6 @@ export default function Topic() {
           <TouchableOpacity
             style={styles.optionButton}
             key={`${question.id}-${i}`}
-            onPress={}
           >
             <Text style={styles.optionText}>
               {["a", "b", "c", "d"][i]}. {ans.answer}
@@ -134,5 +133,6 @@ type Question = {
   answers: Array<{
     answer: string;
     explanation: string;
+    answerAudio: string;
   }>;
 };

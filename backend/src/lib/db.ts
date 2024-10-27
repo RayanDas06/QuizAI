@@ -28,6 +28,8 @@ const questions = new Schema({
         answer: { type: String, required: true },
         // explanation for if the question is right or wrong
         explanation: { type: String, required: true },
+        // link to audio url
+        answerAudio: { type: String, required: true },
       },
     ],
     required: true,
